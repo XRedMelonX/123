@@ -13,7 +13,7 @@ param (
     [string]$text 
 )
 
-$hookurl = $dc
+$hookurl = "$dc"
 
 $Body = @{
   'username' = $env:username
